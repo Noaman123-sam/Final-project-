@@ -7,8 +7,7 @@ import numpy as np
 st.set_page_config(page_title="Fraud Detection System", layout="centered")
 
 
-@st.cache_resource # عشان يحملهم مرة واحدة بس والبرنامج يبقى سريع
-def load_assets():
+@st.cache_resource 
     model = joblib.load('fraud_model.pkl')
     scaler = joblib.load('scaler.pkl')
     imputer = joblib.load('imputer.pkl')
@@ -22,12 +21,12 @@ model, scaler, imputer, all_columns, top_features = load_assets()
 st.title("🛡️ نظام كشف الاحتيال المالي")
 st.markdown("قم بإدخال بيانات المعاملة للتحقق من سلامتها")
 
-# عمل فورم لإدخال أهم 10 قيم
+
 with st.form("prediction_form"):
     st.subheader("بيانات المعاملة الأساسية")
     
     user_inputs = {}
-    # تقسيم المدخلات على عمودين عشان الشكل يبقى أنظف
+    
     col1, col2 = st.columns(2)
     
     for i, feature in enumerate(top_features):
@@ -50,7 +49,7 @@ if submit:
     
     # 4. التوقع
     prediction = model.predict(input_scaled)
-    probability = model.predict_proba(input_scaled)[0][1] # نسبة الشك في الاحتيال
+    probability = model.predict_proba(input_scaled)[0][1] 
     
     st.divider()
     if prediction[0] == 1:
